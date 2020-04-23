@@ -3,8 +3,8 @@
 # Contributor: Light2Yellow <oleksii.vilchanskyi@gmail.com>
 
 pkgname=ckb-next-git
-pkgver=0.4.2.r26.g0c1b7b9
-pkgrel=2
+pkgver=0.4.2.r58.g26bea40
+pkgrel=1
 epoch=1
 pkgdesc="Corsair Keyboard and Mouse Input Driver, git master branch"
 arch=('i686' 'x86_64')
@@ -16,8 +16,14 @@ optdepends=('libappindicator-gtk2: Ayatana indicators in Unity, KDE or Systray (
 conflicts=('ckb-git' 'ckb-git-latest' 'ckb-next')
 provides=('ckb-next')
 install=ckb-next-git.install
-source=('ckb-next-git::git+https://github.com/ckb-next/ckb-next.git')
-md5sums=('SKIP')
+source=('ckb-next-git::git+https://github.com/felipealmeida/ckb-next.git#branch=non-gui-background-mode'
+        ckbnext.tmpfiles
+        ckbnext.sysusers
+        ckb-next.service)
+md5sums=('SKIP'
+        1d67d2381b1c31365c4da85860917027
+        94098573b6d2767bd843d3f85c94bf18
+        2aae1795e211ce216a8fb9a28386124f)
 
 pkgver() {
   cd "$srcdir/${pkgname%-VCS}"
@@ -45,4 +51,7 @@ package() {
   cd "$srcdir/${pkgname%-VCS}"
 
   DESTDIR="$pkgdir" cmake --build build --target install
+  install -Dm0644 "$srcdir"/ckbnext.tmpfiles "$pkgdir"/usr/lib/tmpfiles.d/ckbnext.conf
+  install -Dm0644 "$srcdir"/ckbnext.sysusers "$pkgdir"/usr/lib/sysusers.d/ckbnext.conf
+  install -Dm0644 "$srcdir"/ckb-next.service "$pkgdir"/usr/lib/systemd/system/ckb-next.service
 }

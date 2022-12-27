@@ -7,7 +7,7 @@ Description=Corsair Keyboards and Mice User Daemon
 [Service]
 User=ckbnext
 Group=ckbnext
-ExecStart=/usr/bin/ckb-next -b
+ExecStart=/usr/bin/ckb-next -x
 Restart=on-failure
 Requires=ckb-next-daemon.service
 
